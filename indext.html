@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        
+        body{
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #formulaire{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .zoneSaisie{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+
+        }
+        /*style champs de saisi*/
+        input[type="text"]{
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem
+
+
+        }
+        input[type="password"]{
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem
+
+
+        }
+        input[type="text"]:focus{
+            outline: none;
+            border-color: #3498db;
+            
+
+        }
+        input[type="password"]:focus{
+             outline: none;
+           
+            border-color: #3498db;
+        }
+
+        /*style bouton*/
+        button{
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #Connexion{
+             background-color: #3498db;
+             color: white;
+             width: 100%;
+
+        }
+        #btn-ajouter{
+             background-color: #3498db;
+             color: white;
+             width: 100%;
+
+        }
+        #btn-ajouter:hover{
+            background-color: #2980b9;
+
+        }
+        #Connexion:hover{
+            background-color: #2980b9;
+
+        }
+
+        ul{
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        li{
+            background-color: #f8f9fa;
+            padding: 10px 15px; 
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #3498db;
+        }
+        #listeTache li span{
+            flex: 1;
+        }
+        #btn-deconnexion{
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 6px;
+            display: block;
+            margin: 10px auto;
+
+
+        }
+        #listeTache li button:nth-of-type(1){
+            background-color: #f1f2f6;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+
+        }
+        #listeTache li button:nth-of-type(2){
+            background-color: #ffeaea;
+            color: #e74c3c;
+            padding: 6px 12px;
+
+        }
+    
+
+    </style>
+</head>
+<body>
+    <!--Section formulaire de connexion-->
+    <section id="sectionConnection">
+        <h1>To-Do List</h1>
+        <p>Organise tes tache,atteins tes objectifs</p>
+        <div>
+            <h2>Connexion</h2>
+            <p>Accede a ton espace personnel</p>
+            <form id="formulaire">
+                <input type="text" id="identifiant" placeholder="identifiant" required>
+                <input type="password" id="password" placeholder="Mot de passe" required>
+                <button type="submit" id="Connexion">Se connecter</button>
+            </form>
+            <p>Pas encore connecter ? </p>
+            <a href="#">Creer un compte</a>
+        </div>
+    </section>
+
+    <!--Section To-Do list-->
+    <section id="sectionToDoList" style ="display: none;">
+        <h1>Mon espace personnel</h1>
+        <p>Bonjour <strong id="nomUtilisateur">Utilisateur</strong></p>
+        <button id="btn-deconnexion">Se deconnecter</button>
+        <!--zone d'ajout d'une tache-->
+        <div class="zoneSaisie">
+            <h2>Ajouter une tache</h2>
+            <input type="text" id="nouvelleTache" placeholder="Qu'avez-vous à faire aujourd'hui ?" required>
+            <button id="btn-ajouter">Ajoutez a la liste</button>
+
+        </div>
+        <!--Listes des taches-->
+        <div class="ZoneListe">
+            <h3>Mes taches en cours:</h3>
+            <ul id="listeTache">
+                <!-- endroit ou vidra inserer vos differents taches-->
+            </ul>
+
+        </div>
+
+    </section>
+
+    <script>
+        const form = document.querySelector('#formulaire');
+        const sectionToDoList = document.querySelector('#sectionToDoList');
+        const sectionConnection = document.querySelector('#sectionConnection'); 
+        
+
+        form.addEventListener('submit',function(e){
+            e.preventDefault();
+             const identifiant = document.querySelector('#identifiant').value;
+             const password = document.querySelector('#password').value;
+             const nomUtilisateur = document.querySelector('#nomUtilisateur')
+            
+            if(identifiant ==="admin" && password==="1234"){
+                nomUtilisateur.textContent=identifiant
+               sectionToDoList.style.display = "block"
+                sectionConnection.style.display = "none"
+
+
+            }
+            else{
+                alert("Identifiant ou mot de passe incorrect")
+               
+
+            }
+
+
+        })
+        // Systeme de deconnection
+        const btnDeconnexion = document.querySelector('#btn-deconnexion')
+        btnDeconnexion.addEventListener('click',()=>{
+            sectionToDoList.style.display = "none"
+            sectionConnection.style.display = "block"
+           
+
+
+        })
+        //Ajout de nouvel tache
+
+        const btnAjouter = document.querySelector('#btn-ajouter');
+        const nouvelleTache = document.querySelector('#nouvelleTache');
+        const listeTache = document.querySelector('#listeTache');
+        btnAjouter.addEventListener('click',()=>{
+            
+             const nouvelElementSpan = document.createElement('span')
+             nouvelElementSpan.textContent = nouvelleTache.value
+           
+              if(nouvelleTache.value===""){
+                alert("Ajouter une tache")
+
+              }
+              else{
+                 const nouvelElementLi = document.createElement('li');
+                
+                 nouvelElementLi.appendChild(nouvelElementSpan)
+                 listeTache.appendChild(nouvelElementLi)
+                 nouvelleTache.value=""
+                 // Creation de bouton suppression
+                 const btnSupprimer = document.createElement('button')
+
+                 // Creation du bouton tache executer
+                 const btnAccomplie = document.createElement('button')
+                 btnAccomplie.textContent = "Accomplie"
+                 nouvelElementLi.appendChild(btnAccomplie)
+                 btnAccomplie.addEventListener('click',()=>{
+                    btnAccomplie.style.backgroundColor="green";
+                    btnSupprimer.remove();
+                 })
+                 btnSupprimer.textContent = "Supprimer"
+                 nouvelElementLi.appendChild(btnSupprimer)
+
+                 // supprimer le nouvel element li en cas de suppression d'une tache
+                 btnSupprimer.addEventListener('click',()=>{
+                    nouvelElementLi.remove()
+                    
+
+                 })
+
+
+                }
+            
+            
+
+            
+            
+            
+           
+        })
+      
+
+
+    </script>
+    
+</body>
+</html>
